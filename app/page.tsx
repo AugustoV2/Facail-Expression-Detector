@@ -62,7 +62,7 @@ export default function Home() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       faceDetectHandler();
-    }, 100);
+    }, 500);
 
     return () => clearInterval(intervalId);
   }, [isModelLoaded]);
