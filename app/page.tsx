@@ -73,10 +73,36 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      <header className={styles.header}>
+        <h1>Real-Time Facial Expression Recognition</h1>
+        <p>Detect faces and recognize expressions using AI-powered face-api.js</p>
+      </header>
       <main className={styles.main}>
-        <Webcam audio={false} ref={webcamRef} className={styles.video} />
-        <canvas ref={canvasRef} className={styles.canvas} />
+        <div className={styles.webcamContainer}>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            className={styles.video}
+            style={{ position: "absolute", top: 0, left: 0 }}
+          />
+          <canvas
+            ref={canvasRef}
+            className={styles.canvas}
+            style={{ position: "absolute", top: 0, left: 0 }}
+          />
+        </div>
       </main>
+      <footer className={styles.footer}>
+        <p>
+          Developed by{" "}
+          <a href="https://github.com/augustov2" target="_blank">
+            @augustov2
+          </a>
+        </p>
+      </footer>
     </div>
+
+
   );
+
 }
