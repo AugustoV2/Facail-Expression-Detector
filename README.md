@@ -1,21 +1,25 @@
-Face Detection and Expression Recognition Web Application
+
+# **Face Detection and Expression Recognition Web Application**
+
+
 This project utilizes face-api.js and TensorFlow.js to create a real-time face detection and expression recognition application in the browser. Using a webcam, the app automatically detects faces and displays the expressions (such as happy, sad, surprised, etc.) in real-time.
 
-Features
+## Features
+
 Real-time face detection
 Real-time expression recognition
 Webcam feed integration
 Displays facial landmarks and expressions on a canvas
 Models for Tiny Face Detector, Face Landmark, Face Recognition, and Face Expressions
-Demo
+## Demo
 You can view a live demo of the project here: https://facail-expression-detector.vercel.app/
 
-Technologies Used
+## Technologies Used
 Next.js: React framework for building the user interface and server-side rendering
 face-api.js: A powerful library for face detection and recognition
 TensorFlow.js: A JavaScript library for training and deploying machine learning models in the browser
 Webcam.js: Captures webcam feed for use in the application
-Installation
+## Installation
 1. Clone the repository
 bash
 Copy code
@@ -27,14 +31,16 @@ Copy code
 npm install
 3. Start the development server
 bash
-Copy code
+## Copy code
+```bash
 npm run dev
+```
 Open http://localhost:3000 in your browser to view the app.
 
-Usage
+## Usage
 Once the app is running, the webcam feed will automatically be displayed on the screen. The face-api.js models will be loaded, and the app will start detecting faces and expressions. The detected faces will be marked with bounding boxes, and the detected expressions will be displayed above them.
 
-Models
+## Models
 The following models are used for detecting faces and recognizing expressions:
 
 TinyFaceDetector: Detects faces in the image or video feed.
@@ -43,10 +49,10 @@ FaceRecognitionNet: Recognizes faces for identity verification.
 FaceExpressionNet: Recognizes expressions like happy, sad, angry, surprised, etc.
 The models are loaded from the /models directory in the public folder.
 
-Contributing
+## Contributing
 Contributions are welcome! Feel free to fork this repository and submit pull requests with improvements or bug fixes.
 
-License
+## License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 Acknowledgments
