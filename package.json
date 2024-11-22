@@ -9,9 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tensorflow/tfjs": "^4.22.0",
     "@types/react-webcam": "^3.0.0",
     "encoding": "^0.1.13",
-    "face-api.js": "^0.20.0",
+    "face-api.js": "^0.20.1",
     "next": "15.0.3",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
