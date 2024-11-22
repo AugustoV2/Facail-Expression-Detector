@@ -1,79 +1,90 @@
 "use client";
 
 import * as faceapi from "face-api.js";
-import { useEffect, useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
-import styles from "./WebcamStyles.module.css";
+import styles from './WebcamStyles.module.css';
 
 export default function Home() {
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isModelLoaded, setIsModelLoaded] = useState(false);
 
-  // Load face-api.js models
+  // Load the models using face-api.js
   const loadModels = async () => {
     const MODEL_URL = "/models";
-    await Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-      faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-      faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-      faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
-    ]);
-  };
-
-  // Function to start detection and drawing
-  const startFaceDetection = async () => {
-    if (webcamRef.current && canvasRef.current) {
-      const video = webcamRef.current.video as HTMLVideoElement;
-      const canvas = canvasRef.current;
-      const displaySize = { width: video.videoWidth, height: video.videoHeight };
-
-      // Adjust canvas size to match the video
-      faceapi.matchDimensions(canvas, displaySize);
-
-      // Run detection on a loop
-      setInterval(async () => {
-        if (video.readyState === 4) {
-          const detections = await faceapi
-            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-            .withFaceExpressions();
-
-          if (detections && detections.length > 0) {
-            // Resize detections to match video size
-            const resizedDetections = faceapi.resizeResults(detections, displaySize);
-
-            // Clear the canvas for fresh drawings
-            canvas.getContext("2d")?.clearRect(10, 50, canvas.width, canvas.height);
-
-            // Draw detections and expressions
-            faceapi.draw.drawDetections(canvas, resizedDetections);
-            faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
-          } else {
-            // Optional: clear canvas if no faces are detected
-            canvas.getContext("2d")?.clearRect(10, 50, canvas.width, canvas.height);
-          }
-        }
-      }, 100); // Detection interval (100ms)
+    try {
+      await Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+        faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+        faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+        faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL)
+      ]);
+      setIsModelLoaded(true);
+      console.log("Models loaded successfully!");
+    } catch (error) {
+      console.error("Error loading models:", error);
     }
   };
 
-  useEffect(() => {
-    const initialize = async () => {
+  // Handle face detection and expression recognition
+  const faceDetectHandler = async () => {
+    if (!isModelLoaded) {
       await loadModels();
-      startFaceDetection();
-    };
-    initialize();
-  }, []); // Only run once when the component mounts
+    }
+
+    if (webcamRef.current && canvasRef.current) {
+      const webcam = webcamRef.current.video as HTMLVideoElement;
+      const canvas = canvasRef.current;
+
+      // Ensure the canvas dimensions are correctly set based on webcam dimensions
+      if (webcam.videoWidth && webcam.videoHeight) {
+        webcam.width = webcam.videoWidth;
+        webcam.height = webcam.videoHeight;
+        canvas.width = webcam.videoWidth;
+        canvas.height = webcam.videoHeight;
+      }
+
+      // Perform face detection and expression recognition
+      const detectionsWithExpressions = await faceapi
+        .detectAllFaces(webcam, new faceapi.TinyFaceDetectorOptions())
+        .withFaceExpressions();
+
+      // Clear previous canvas drawings if canvas exists
+      const context = canvas.getContext("2d");
+      if (context) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      // Match canvas and webcam display sizes
+      const displaySize = { width: webcam.videoWidth, height: webcam.videoHeight };
+      faceapi.matchDimensions(canvas, displaySize);
+
+      // Draw detections and expressions on the canvas
+      faceapi.draw.drawDetections(canvas, detectionsWithExpressions);
+      faceapi.draw.drawFaceExpressions(canvas, detectionsWithExpressions);
+    }
+  };
+
+  // Automatically detect faces and expressions every 100 milliseconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      faceDetectHandler();
+    }, 100); // Adjust the interval as needed for smooth performance
+
+    return () => clearInterval(intervalId); // Clear interval when component unmounts
+  }, [isModelLoaded]);
+
+  // Load models when component mounts
+  useEffect(() => {
+    loadModels();
+  }, []);
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <Webcam
-          audio={false}
-          ref={webcamRef}
-          className={styles.video}
-          videoConstraints={{ facingMode: "user" }}
-        />
-        <canvas ref={canvasRef} className={styles.video} />
+        <Webcam audio={false} ref={webcamRef} className={styles.video} />
+        <canvas ref={canvasRef} className={styles.canvas} />
       </main>
     </div>
   );

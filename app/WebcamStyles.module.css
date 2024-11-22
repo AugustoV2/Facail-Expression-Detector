@@ -3,15 +3,29 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.main {
+    position: relative; /* Ensure the canvas is positioned relative to this container */
+  }
+  
+  .main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-
-.video {
+  }
+  
+  .video {
     max-width: 100%;
     border: 2px solid #000;
-}
+    position: absolute; /* Position webcam video absolutely inside the container */
+    top: 0;
+    left: 0;
+  }
+  
+  .canvas {
+    position: absolute; /* Position canvas absolutely over the video */
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Make the canvas not interactable (only the webcam is) */
+    z-index: 1; /* Ensure the canvas appears above the video */
+    border: 2px solid red; /* Optional: To see the canvas boundary */
+  }
+  
