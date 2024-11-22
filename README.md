@@ -16,8 +16,11 @@ You can view a live demo of the project here: https://facail-expression-detector
 
 ## Technologies Used
 Next.js: React framework for building the user interface and server-side rendering
+
 face-api.js: A powerful library for face detection and recognition
+
 TensorFlow.js: A JavaScript library for training and deploying machine learning models in the browser
+
 Webcam.js: Captures webcam feed for use in the application
 ## Installation
 1. Clone the repository
