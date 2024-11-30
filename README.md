@@ -70,7 +70,8 @@ Contributions are welcome! Feel free to fork this repository and submit pull req
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 Acknowledgments
-face-api.js - A great library for face detection and recognition in the browser.
+face-
+api.js - A great library for face detection and recognition in the browser.
 
 TensorFlow.js - A powerful library for running machine learning models in the browser.
 
