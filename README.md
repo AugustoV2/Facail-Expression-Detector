@@ -27,6 +27,7 @@ Webcam.js: Captures webcam feed for use in the application
 bash
 Copy code
 git clone https://github.com/augustov2/face-detection-expression-recognition.git
+
 cd face-detection-expression-recognition
 2. Install dependencies
 bash
@@ -53,9 +54,13 @@ Once the app is running, the webcam feed will automatically be displayed on the 
 The following models are used for detecting faces and recognizing expressions:
 
 TinyFaceDetector: Detects faces in the image or video feed.
+
 FaceLandmark68Net: Detects key facial landmarks such as eyes, nose, and mouth.
+
 FaceRecognitionNet: Recognizes faces for identity verification.
+
 FaceExpressionNet: Recognizes expressions like happy, sad, angry, surprised, etc.
+
 The models are loaded from the /models directory in the public folder.
 
 ## Contributing
@@ -66,5 +71,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 Acknowledgments
 face-api.js - A great library for face detection and recognition in the browser.
+
 TensorFlow.js - A powerful library for running machine learning models in the browser.
+
 Webcam.js - Used to capture the webcam feed.
